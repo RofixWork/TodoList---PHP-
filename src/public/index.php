@@ -10,12 +10,13 @@ include __DIR__ . "/../vendor/autoload.php";
 
 //PATH NAMES
 const VIEW_PATH = __DIR__ . '/../views';
-
+//load all env variables
 $dotenv = \Dotenv\Dotenv::createImmutable(dirname(__DIR__));
 $dotenv->load();
 $container = new Container();
 $router = new Router($container);
 
+//routes
 $router->get('/', [TaskController::class, 'index'])
     ->get("/create", [TaskController::class, 'create'])
     ->post('/store', [TaskController::class, 'store'])
@@ -23,6 +24,7 @@ $router->get('/', [TaskController::class, 'index'])
     ->post("/update", [TaskController::class, 'update'])
     ->get('/delete', [TaskController::class, 'delete']);
 
+//pass args & run by app class
 (new Application($router, [
     "uri" => $_SERVER['REQUEST_URI'],
     'method' => $_SERVER["REQUEST_METHOD"]
